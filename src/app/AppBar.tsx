@@ -20,7 +20,7 @@ export function AppBar() {
             label="Search stocks & ETFs"
             size="small"
             margin="dense"
-            color="warning"
+            color="info"
             InputProps={{
                 startAdornment: (
                     <InputAdornment>
