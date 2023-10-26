@@ -9,9 +9,11 @@ export default function Home() {
     return (
         <BrowserRouter>
             <AppBar/>
-            <Routes>
-                <Route path="/" element={<Explore/>}/>
-                <Route path="/product" element={<Product/>}/>
-            </Routes>
+            <Product/>
+            {/*<Abc/>*/}
+            {/*<Routes>*/}
+            {/*    <Route path="/" element={<Explore/>}/>*/}
+            {/*    <Route path="/" element={<Product/>}/>*/}
+            {/*</Routes>*/}
         </BrowserRouter>
 )}
