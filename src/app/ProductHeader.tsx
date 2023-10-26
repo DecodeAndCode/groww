@@ -1,7 +1,7 @@
 import React from "react";
 import {Typography} from "@mui/material";
-import {Abc} from "@/app/ChartComponent";
-export function ProductHeader({AssetType, Symbol, Name, Exchange, CIK, ProfitMargin}) {
+
+export function ProductHeader({AssetType, Symbol, Name, Exchange, AnalystTargetPrice, ProfitMargin}) {
     return <div style={{
         display: "flex",
         justifyContent: "space-around",
@@ -40,7 +40,7 @@ export function ProductHeader({AssetType, Symbol, Name, Exchange, CIK, ProfitMar
             <div style={{
                 fontWeight: "bold"
             }}>
-                {"$" + CIK}
+                {"$" + AnalystTargetPrice}
             </div>
             <div style={{
                 color: "green",

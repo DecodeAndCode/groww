@@ -47,15 +47,18 @@ export const ChartComponent = props => {
 
     return (
         <div style={{
-            border: "solid dimgray 1px",
-            borderRadius: "10px",
-            marginLeft: 255,
-            marginRight: 255,
             marginTop: 30,
-            overflow: 'hidden'
-        }}
-             ref={chartContainerRef}
-        />
+            marginLeft: 255,
+            marginRight: 255
+        }}>
+            <div style={{
+                border: "solid dimgray 1px",
+                borderRadius: "10px",
+                overflow: 'hidden'
+            }}
+                 ref={chartContainerRef}
+            />
+        </div>
     );
 };
 
