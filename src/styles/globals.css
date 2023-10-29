@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*:root {*/
+/*      --foreground-rgb: 255, 255, 255;*/
+/*      --background-start-rgb: 0, 0, 0;*/
+/*      --background-end-rgb: 0, 0, 0;*/
+/*}*/
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+.about-company {
+  margin-left: 255px;
+  margin-right: 255px;
+  border: solid dimgray 1px;
+  border-radius: 10px;
+  margin-Top: 30px;
+  overflow: hidden;
+  margin-Bottom: 30px;
+}
+
+.chart-component {
+  margin-left: 255px;
+  margin-right: 255px;
+  border: solid dimgray 1px;
+  border-radius: 10px;
+  margin-Top: 30px;
+  overflow: hidden;
+  margin-Bottom: 30px;
+}
+
+@media screen and (max-width: 768px) {
+
+  .about-company {
+    margin-left: 20px;
+    margin-right: 20px;
+    border: solid dimgray 1px;
+    border-radius: 10px;
+    margin-Top: 30px;
+    overflow: hidden;
+    margin-Bottom: 30px;
+  }
+
+  .chart-component {
+    margin-left: 20px;
+    margin-right: 20px;
+    border: solid dimgray 1px;
+    border-radius: 10px;
+    margin-Top: 30px;
+    overflow: hidden;
+    margin-Bottom: 30px;
+  }
+}

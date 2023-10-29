@@ -1,7 +1,11 @@
 import {Card, CardActionArea, CardContent, Typography} from "@mui/material";
-import React from "react";
+import React, {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import Image from "next/image";
+import {useParams} from "react-router";
+import axios from "axios";
+import {useRecoilState} from "recoil";
+import {companyDataState} from "@/lib/recoilState";
 
 export interface TopGainer {
     ticker: string;
@@ -10,12 +14,19 @@ export interface TopGainer {
     change_amount: number;
 }
 
-export function GStockCard({ topGainer }: { topGainer: TopGainer }) {
+export function GStockCard({topGainer}: { topGainer: TopGainer }) {
     const navigate = useNavigate();
+    const searchQuery = topGainer.ticker;
+    const [companyData, setCompanyData] = useRecoilState(companyDataState);
 
     return <Card sx={{minWidth: 250}} raised={true} variant={"outlined"}>
-        <CardActionArea onClick={()=> {
-            navigate("/product");
+        <CardActionArea onClick={() => {
+            axios.get(
+                `https://www.alphavantage.co/query?function=OVERVIEW&symbol=IBM&apikey=demo` //L7LNN00KVSBU9UPD
+            ).then((res) => {
+                setCompanyData(res.data);
+                navigate("/product");
+            });
         }}>
             <CardContent>
                 <div style={{

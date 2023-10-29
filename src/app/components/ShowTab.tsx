@@ -1,8 +1,9 @@
 import {Tab, Tabs, Grid, Typography} from "@mui/material";
 import React, {useState} from "react";
 import {Box} from "@mui/system";
-import {GStockCard} from "@/app/GStockCard";
-import {LStockCard} from "@/app/LStockCard";
+import {GStockCard} from "@/app/components/GStockCard";
+import {LStockCard} from "@/app/components/LStockCard";
+import TradingViewWidget from "@/app/components/TradingViewWidget";
 
 interface TopGainer {
     ticker: string;
@@ -33,6 +34,7 @@ export function ShowTab({ topGainers, topLosers }: { topGainers: TopGainer[], to
             <Tabs value={value} onChange={handleChange}>
                 <Tab label="Top Gainers"></Tab>
                 <Tab label="Top Losers"></Tab>
+                <Tab label="Popular Charts"></Tab>
             </Tabs>
         </div>
 
@@ -54,6 +56,16 @@ export function ShowTab({ topGainers, topLosers }: { topGainers: TopGainer[], to
                     </Grid>
                 ))}
             </Grid>
+        </TabPanel>
+
+        <TabPanel value={value} index={2}>
+            <div style={{
+                display: "flex",
+                justifyContent: "center",
+                margin: 30
+            }}>
+                <TradingViewWidget/>
+            </div>
         </TabPanel>
     </div>
 }

@@ -65,11 +65,7 @@ export const ChartComponent: React.FC<ChartComponentProps> = (props) => {
     }, [data, backgroundColor, lineColor, textColor, areaTopColor, areaBottomColor]);
 
     return (
-        <div style={{
-            marginTop: 30,
-            marginLeft: 255,
-            marginRight: 255,
-        }}>
+        <div className={"chart-component"}>
             <div style={{
                 border: "solid dimgray 1px",
                 borderRadius: "10px",

@@ -1,18 +1,14 @@
 import React from "react";
 import {Typography} from "@mui/material";
 import Image from "next/image";
-
-interface ProductHeaderProps {
-    AssetType: string;
-    Symbol: string;
-    Name: string;
-    Exchange: string;
-    AnalystTargetPrice: number;
-    ProfitMargin: number;
-}
+import {useRecoilValue} from "recoil";
+import {companyDataState} from "@/lib/recoilState";
 
 
-export function ProductHeader({AssetType, Symbol, Name, Exchange, AnalystTargetPrice, ProfitMargin}: ProductHeaderProps) {
+export function ProductHeader() {
+
+    const companyData = useRecoilValue(companyDataState);
+
     return <div style={{
         display: "flex",
         justifyContent: "space-around",
@@ -34,12 +30,12 @@ export function ProductHeader({AssetType, Symbol, Name, Exchange, AnalystTargetP
             />
             <div>
                 <div>
-                    <Typography variant={"h6"}>{Name}</Typography>
-                    {Symbol},
-                    {AssetType}
+                    <Typography variant={"h6"}>{companyData.Name}</Typography>
+                    {companyData.Symbol},
+                    {companyData.AssetType}
                 </div>
                 <div>
-                    {Exchange}
+                    {companyData.Exchange}
                 </div>
             </div>
         </div>
@@ -52,13 +48,13 @@ export function ProductHeader({AssetType, Symbol, Name, Exchange, AnalystTargetP
             <div style={{
                 fontWeight: "bold"
             }}>
-                {"$" + AnalystTargetPrice}
+                {"$" + companyData.AnalystTargetPrice}
             </div>
             <div style={{
                 color: "green",
                 fontWeight: "bold"
             }}>
-                {"+" + ProfitMargin + "%"}
+                {"+" + companyData.ProfitMargin + "%"}
             </div>
         </div>
     </div>

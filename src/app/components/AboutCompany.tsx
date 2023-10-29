@@ -1,51 +1,20 @@
 import {Typography} from "@mui/material";
 import React from "react";
+import {useRecoilValue} from 'recoil';
+import { companyDataState } from '@/lib/recoilState';
 
-interface AboutCompanyProps {
-    Name: string;
-    Description: string;
-    Industry: string;
-    Sector: string;
-    Beta: number;
-    ProfitMargin: number;
-    WeekLow: number;
-    WeekHigh: number;
-    PERatio: number;
-    DividendYield: number;
-    MarketCapitalization: number;
-    AnalystTargetPrice: number;
-}
+export function AboutCompany() {
 
-export function AboutCompany({
-                                 Name,
-                                 Description,
-                                 Industry,
-                                 Sector,
-                                 Beta,
-                                 ProfitMargin,
-                                 WeekLow,
-                                 WeekHigh,
-                                 PERatio,
-                                 DividendYield,
-                                 MarketCapitalization,
-                                 AnalystTargetPrice
-                             }: AboutCompanyProps) {
+    const companyData = useRecoilValue(companyDataState);
+
     return (
-        <div style={{
-            border: "solid dimgray 1px",
-            borderRadius: "10px",
-            marginLeft: 255,
-            marginRight: 255,
-            marginTop: 30,
-            overflow: 'hidden',
-            marginBottom: 30
-        }}>
+        <div className="about-company">
             <div style={{padding: 10}}>
-                <Typography variant={"h6"}>{"About " + Name}</Typography>
+                <Typography variant={"h6"}>{"About " + companyData.Name}</Typography>
             </div>
-            <hr color={"solid dimgray 5px"}/>
+            <hr color={"solid white 5px"}/>
             <div style={{padding: 10}}>
-                {Description}
+                {companyData.Description}
             </div>
             <div style={{
                 padding: 10,
@@ -61,9 +30,9 @@ export function AboutCompany({
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    padding: 10
+                    padding: 20
                 }}>
-                    {"Industry: " + Industry}
+                    {"INDUSTRY: " + companyData.Industry}
                 </div>
                 <div style={{
                     width: 300,
@@ -76,7 +45,7 @@ export function AboutCompany({
                     alignItems: "center",
                     padding: 10
                 }}>
-                    {"Sector: " + Sector}
+                    {"SECTOR: " + companyData.Sector}
                 </div>
             </div>
             <div style={{
@@ -92,7 +61,7 @@ export function AboutCompany({
                     <div style={{
                         fontWeight: "bold"
                     }}>
-                        {"$" + WeekLow}
+                        {"$" + companyData.WeekLow}
                     </div>
                 </div>
                 <div style={{
@@ -104,7 +73,7 @@ export function AboutCompany({
                         display: "flex",
                         justifyContent: "center"
                     }}>
-                        {"Current price: $" + AnalystTargetPrice}
+                        {"Current price: $" + companyData.AnalystTargetPrice}
                     </div>
                     <div style={{
                         display: "flex",
@@ -124,7 +93,7 @@ export function AboutCompany({
                     <div style={{
                         fontWeight: "bold"
                     }}>
-                        {"$" + WeekHigh}
+                        {"$" + companyData.WeekHigh}
                     </div>
                 </div>
             </div>
@@ -141,7 +110,7 @@ export function AboutCompany({
                     <div style={{
                         fontWeight: "bold"
                     }}>
-                        {"$" + MarketCapitalization / 1000000000 + "T"}
+                        {"$" + companyData.MarketCapitalization / 1000000000 + "T"}
                     </div>
                 </div>
                 <div style={{
@@ -152,7 +121,7 @@ export function AboutCompany({
                     <div style={{
                         fontWeight: "bold"
                     }}>
-                        {PERatio}
+                        {companyData.PERatio}
                     </div>
                 </div>
                 <div style={{
@@ -163,7 +132,7 @@ export function AboutCompany({
                     <div style={{
                         fontWeight: "bold"
                     }}>
-                        {Beta}
+                        {companyData.Beta}
                     </div>
                 </div>
                 <div style={{
@@ -174,7 +143,7 @@ export function AboutCompany({
                     <div style={{
                         fontWeight: "bold"
                     }}>
-                        {DividendYield + "%"}
+                        {companyData.DividendYield + "%"}
                     </div>
                 </div>
                 <div style={{
@@ -185,7 +154,7 @@ export function AboutCompany({
                     <div style={{
                         fontWeight: "bold"
                     }}>
-                        {ProfitMargin}
+                        {companyData.ProfitMargin}
                     </div>
                 </div>
             </div>
