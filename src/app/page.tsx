@@ -2,18 +2,24 @@
 
 import {Explore} from "@/app/Explore";
 import {AppBar} from "@/app/AppBar";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import {Product} from "@/app/Product";
 // import TradingViewWidget from "@/app/TradingViewWidget";
 
 export default function Home() {
+
+    const isClient = typeof window !== "undefined";
+
     return (
-        <BrowserRouter>
-            <AppBar/>
-            <Routes>
-                <Route path="/" element={<Explore/>}/>
-                <Route path="/product" element={<Product/>}/>
-            </Routes>
-            {/*<TradingViewWidget/>*/}
-        </BrowserRouter>
-)}
+        isClient ? (
+            <Router>
+                <AppBar />
+                <Explore />
+                <Routes>
+                    <Route path="/product" element={<Product />} />
+                </Routes>
+                {/*<TradingViewWidget/>*/}
+            </Router>
+        ) : null
+    );
+}
