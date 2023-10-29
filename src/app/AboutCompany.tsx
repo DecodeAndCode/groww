@@ -1,6 +1,21 @@
 import {Typography} from "@mui/material";
 import React from "react";
 
+interface AboutCompanyProps {
+    Name: string;
+    Description: string;
+    Industry: string;
+    Sector: string;
+    Beta: number;
+    ProfitMargin: number;
+    WeekLow: number;
+    WeekHigh: number;
+    PERatio: number;
+    DividendYield: number;
+    MarketCapitalization: number;
+    AnalystTargetPrice: number;
+}
+
 export function AboutCompany({
                                  Name,
                                  Description,
@@ -14,7 +29,7 @@ export function AboutCompany({
                                  DividendYield,
                                  MarketCapitalization,
                                  AnalystTargetPrice
-                             }) {
+                             }: AboutCompanyProps) {
     return (
         <div style={{
             border: "solid dimgray 1px",

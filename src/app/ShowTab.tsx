@@ -1,13 +1,27 @@
-import {Tab, Tabs, Grid, Typography, CircularProgress, Card} from "@mui/material";
+import {Tab, Tabs, Grid, Typography} from "@mui/material";
 import React, {useState} from "react";
 import {Box} from "@mui/system";
 import {GStockCard} from "@/app/GStockCard";
 import {LStockCard} from "@/app/LStockCard";
 
-export function ShowTab({topGainers, topLosers}) {
+interface TopGainer {
+    ticker: string;
+    price: number;
+    change_percentage: number;
+    change_amount: number;
+}
+
+interface TopLoser {
+    ticker: string;
+    price: number;
+    change_percentage: number;
+    change_amount: number;
+}
+
+export function ShowTab({ topGainers, topLosers }: { topGainers: TopGainer[], topLosers: TopLoser[] }) {
     const [value, setValue] = useState(0);
 
-    const handleChange = (event, newValue) => {
+    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
 
@@ -25,7 +39,7 @@ export function ShowTab({topGainers, topLosers}) {
         <TabPanel value={value} index={0}>
             <Grid container spacing={2}>
                 {topGainers.map((topGainer) => (
-                    <Grid item lg={3} md={4} sm={6} xs={12}>
+                    <Grid item lg={3} md={4} sm={6} xs={12} key={topGainer.ticker}>
                         <GStockCard topGainer={topGainer}></GStockCard>
                     </Grid>
                 ))}
@@ -35,7 +49,7 @@ export function ShowTab({topGainers, topLosers}) {
         <TabPanel value={value} index={1}>
             <Grid container spacing={2}>
                 {topLosers.map((topLoser) => (
-                    <Grid item lg={3} md={4} sm={6} xs={12}>
+                    <Grid item lg={3} md={4} sm={6} xs={12} key={topLoser.ticker}>
                         <LStockCard topLoser={topLoser}></LStockCard>
                     </Grid>
                 ))}
@@ -44,7 +58,7 @@ export function ShowTab({topGainers, topLosers}) {
     </div>
 }
 
-function TabPanel(props) {
+function TabPanel(props: { children: React.ReactNode, value: number, index: number }) {
     const { children, value, index } = props;
 
     return (

@@ -2,7 +2,7 @@
 import {ProductHeader} from "@/app/ProductHeader";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Chart} from "@/app/ChartComponent";
+import {Chart, initialData} from "@/app/ChartComponent";
 import {AboutCompany} from "@/app/AboutCompany";
 
 export function Product() {
@@ -12,15 +12,15 @@ export function Product() {
     const [AssetType, setAssetType] = useState("");
     const [Sector, setSector] = useState("");
     const [Exchange, setExchange] = useState("");
-    const [ProfitMargin, setProfitMargin] = useState("");
-    const [AnalystTargetPrice,setAnalystTargetPrice] = useState("");
+    const [ProfitMargin, setProfitMargin] = useState(0);
+    const [AnalystTargetPrice,setAnalystTargetPrice] = useState(0);
     const [Industry, setIndustry] = useState("");
-    const [Beta, setBeta] = useState("");
-    const [WeekHigh, setWeekHigh] = useState("");
-    const [WeekLow, setWeekLow] = useState("");
-    const [PERatio, setPERatio] = useState("");
-    const [DividendYield, setDividendYield] = useState("");
-    const [MarketCapitalization, setMarketCapitalization] = useState("");
+    const [Beta, setBeta] = useState(0);
+    const [WeekHigh, setWeekHigh] = useState(0);
+    const [WeekLow, setWeekLow] = useState(0);
+    const [PERatio, setPERatio] = useState(0);
+    const [DividendYield, setDividendYield] = useState(0);
+    const [MarketCapitalization, setMarketCapitalization] = useState(0);
 
     useEffect(() => {
         axios.get(
@@ -46,7 +46,7 @@ export function Product() {
 
     return <div>
         <ProductHeader AssetType={AssetType} Symbol={Symbol} Name={Name} Exchange={Exchange} ProfitMargin={ProfitMargin} AnalystTargetPrice={AnalystTargetPrice}/>
-        <Chart/>
+        <Chart data={initialData}/>
         <AboutCompany
             Name={Name}
             Description={Description}

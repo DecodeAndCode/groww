@@ -30,7 +30,7 @@ export function AppBar() {
             onChange={(e) => {
                 setValue(e.target.value);
                 axios.get(
-                    "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=" + {value} + "&apikey=demo"
+                    "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${value}&apikey=demo"
                 ).then((res) => {
                     console.log(res.data);
                     console.log(value)
@@ -38,7 +38,7 @@ export function AppBar() {
             }}
             InputProps={{
                 startAdornment: (
-                    <InputAdornment>
+                    <InputAdornment position="start">
                         <IconButton>
                             <SearchIcon />
                         </IconButton>

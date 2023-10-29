@@ -1,14 +1,18 @@
 "use client";
 
-import {Card, Tab, Tabs, Grid, Typography, CircularProgress} from "@mui/material";
+import {CircularProgress} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {StockCard} from "@/app/GStockCard";
 import {ShowTab} from "@/app/ShowTab";
+import {TopGainer} from "@/app/GStockCard";
+import {TopLoser} from "@/app/LStockCard";
 
 export function Explore() {
-    const [topGainers, setTopGainers] = useState([]);
-    const [topLosers, setTopLosers] = useState([]);
+    // const [topGainers, setTopGainers] = useState([]);
+    // const [topLosers, setTopLosers] = useState([]);
+
+    const [topGainers, setTopGainers] = useState<TopGainer[]>([]);
+    const [topLosers, setTopLosers] = useState<TopLoser[]>([]);
 
     useEffect(() => {
         axios.get(
