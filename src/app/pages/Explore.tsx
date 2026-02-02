@@ -6,36 +6,37 @@ import { useRecoilState } from "recoil";
 import { getTopGainers, getTopLosers, PolygonSnapshot, getPreviousClose } from "@/lib/api";
 import { StockData } from "@/app/components/StockCard";
 
+const MOCK_GAINERS: StockData[] = [
+    { ticker: "AAPL", price: "259.48", change_percentage: "2.45%", change_amount: "6.20" },
+    { ticker: "NVDA", price: "135.20", change_percentage: "3.12%", change_amount: "4.10" },
+    { ticker: "MSFT", price: "430.15", change_percentage: "1.20%", change_amount: "5.10" },
+    { ticker: "AMZN", price: "229.30", change_percentage: "1.80%", change_amount: "4.05" },
+    { ticker: "META", price: "660.50", change_percentage: "2.10%", change_amount: "13.60" },
+    { ticker: "AMD", price: "174.20", change_percentage: "4.50%", change_amount: "7.50" },
+    { ticker: "TSLA", price: "405.50", change_percentage: "1.50%", change_amount: "6.00" },
+    { ticker: "GOOGL", price: "190.10", change_percentage: "0.90%", change_amount: "1.70" },
+];
+
+const MOCK_LOSERS: StockData[] = [
+    { ticker: "NFLX", price: "980.20", change_percentage: "-1.20%", change_amount: "-11.80" },
+    { ticker: "ADBE", price: "538.10", change_percentage: "-2.10%", change_amount: "-11.50" },
+    { ticker: "INTC", price: "19.50", change_percentage: "-1.50%", change_amount: "-0.30" },
+    { ticker: "PYPL", price: "88.20", change_percentage: "-2.80%", change_amount: "-2.50" },
+    { ticker: "ZM", price: "65.40", change_percentage: "-3.10%", change_amount: "-2.10" },
+    { ticker: "DIS", price: "115.10", change_percentage: "-0.80%", change_amount: "-0.90" },
+    { ticker: "NKE", price: "72.50", change_percentage: "-1.10%", change_amount: "-0.80" },
+];
+
+const POPULAR_TICKERS = ["AAPL", "NVDA", "MSFT", "AMZN", "GOOGL", "META", "TSLA", "AMD"];
+const POPULAR_LOSERS = ["NFLX", "ADBE", "INTC", "PYPL", "ZM", "DIS", "NKE", "PFE"];
+
 export function Explore() {
     const [topGainers, setTopGainers] = useRecoilState(topGainersState);
     const [topLosers, setTopLosers] = useRecoilState(topLosersState);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-    const MOCK_GAINERS: StockData[] = [
-        { ticker: "AAPL", price: "259.48", change_percentage: "2.45%", change_amount: "6.20" },
-        { ticker: "NVDA", price: "135.20", change_percentage: "3.12%", change_amount: "4.10" },
-        { ticker: "MSFT", price: "430.15", change_percentage: "1.20%", change_amount: "5.10" },
-        { ticker: "AMZN", price: "229.30", change_percentage: "1.80%", change_amount: "4.05" },
-        { ticker: "META", price: "660.50", change_percentage: "2.10%", change_amount: "13.60" },
-        { ticker: "AMD", price: "174.20", change_percentage: "4.50%", change_amount: "7.50" },
-        { ticker: "TSLA", price: "405.50", change_percentage: "1.50%", change_amount: "6.00" },
-        { ticker: "GOOGL", price: "190.10", change_percentage: "0.90%", change_amount: "1.70" },
-    ];
-
-    const MOCK_LOSERS: StockData[] = [
-        { ticker: "NFLX", price: "980.20", change_percentage: "-1.20%", change_amount: "-11.80" },
-        { ticker: "ADBE", price: "538.10", change_percentage: "-2.10%", change_amount: "-11.50" },
-        { ticker: "INTC", price: "19.50", change_percentage: "-1.50%", change_amount: "-0.30" },
-        { ticker: "PYPL", price: "88.20", change_percentage: "-2.80%", change_amount: "-2.50" },
-        { ticker: "ZM", price: "65.40", change_percentage: "-3.10%", change_amount: "-2.10" },
-        { ticker: "DIS", price: "115.10", change_percentage: "-0.80%", change_amount: "-0.90" },
-        { ticker: "NKE", price: "72.50", change_percentage: "-1.10%", change_amount: "-0.80" },
-    ];
-
-    // List of popular tickers to display "Real Data" when Gainers/Losers endpoint is restricted
-    const POPULAR_TICKERS = ["AAPL", "NVDA", "MSFT", "AMZN", "GOOGL", "META", "TSLA", "AMD"];
-    const POPULAR_LOSERS = ["NFLX", "ADBE", "INTC", "PYPL", "ZM", "DIS", "NKE", "PFE"];
+    // MOCK_GAINERS and MOCK_LOSERS moved outside component to avoid dependency issues
 
     useEffect(() => {
         const fetchRealMarketData = async () => {

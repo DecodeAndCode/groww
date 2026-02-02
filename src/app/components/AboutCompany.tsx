@@ -1,6 +1,6 @@
-import {Typography} from "@mui/material";
+import { Typography } from "@mui/material";
 import React from "react";
-import {useRecoilValue} from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { companyDataState } from '@/lib/recoilState';
 
 export function AboutCompany() {
@@ -9,11 +9,11 @@ export function AboutCompany() {
 
     return (
         <div className="about-company">
-            <div style={{padding: 10}}>
+            <div style={{ padding: 10 }}>
                 <Typography variant={"h6"}>{"About " + companyData.Name}</Typography>
             </div>
-            <hr color={"solid white 5px"}/>
-            <div style={{padding: 10}}>
+            <hr color={"solid white 5px"} />
+            <div style={{ padding: 10 }}>
                 {companyData.Description}
             </div>
             <div style={{
@@ -110,7 +110,7 @@ export function AboutCompany() {
                     <div style={{
                         fontWeight: "bold"
                     }}>
-                        {"$" + companyData.MarketCapitalization / 1000000000 + "T"}
+                        {"$" + (Number(companyData.MarketCapitalization) / 1000000000).toFixed(2) + "T"}
                     </div>
                 </div>
                 <div style={{
