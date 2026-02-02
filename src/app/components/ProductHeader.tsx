@@ -10,7 +10,7 @@ export function ProductHeader() {
     // Fallback if no data (though usually navigated with data)
     if (!companyData || !companyData.Symbol) return null;
 
-    const isPositiveMargin = parseFloat(companyData.ProfitMargin) >= 0;
+    const isPositiveMargin = Number(companyData.ProfitMargin) >= 0;
 
     return (
         <div className="bg-white shadow-sm border-b border-gray-100 py-6 px-4 mb-6">
