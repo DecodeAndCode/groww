@@ -1,16 +1,35 @@
-import {atom} from "recoil";
+import { atom } from "recoil";
+import { StockData } from "@/app/components/StockCard";
 
-export const topGainersState = atom({
+export const topGainersState = atom<StockData[]>({
     key: 'topGainersState',
     default: []
 });
 
-export const topLosersState = atom({
+export const topLosersState = atom<StockData[]>({
     key: 'topLosersState',
     default: [],
 });
 
-export const companyDataState = atom({
+export interface CompanyData {
+    Name: string;
+    Description: string;
+    Industry: string;
+    Sector: string;
+    AssetType: string;
+    Exchange: string;
+    Symbol: string;
+    Beta: number | string;
+    ProfitMargin: number | string;
+    WeekLow: number | string;
+    WeekHigh: number | string;
+    PERatio: number | string;
+    DividendYield: number | string;
+    MarketCapitalization: number | string;
+    AnalystTargetPrice: number | string;
+}
+
+export const companyDataState = atom<CompanyData>({
     key: 'companyDataState',
     default: {
         Name: "",

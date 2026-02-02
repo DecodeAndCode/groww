@@ -1,98 +1,117 @@
 "use client";
 
-import { TextField, Typography, InputAdornment, IconButton } from "@mui/material";
+import { TextField, Typography, InputAdornment, IconButton, Autocomplete } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import axios from "axios";
-import {useState} from "react";
-import {useNavigate} from "react-router-dom";
-import Autocomplete from "@mui/material/Autocomplete";
-import {useRecoilState} from "recoil";
-import {companyDataState} from "@/lib/recoilState";
+import Link from "next/link"; // Not used but cleanup
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { companyDataState } from "@/lib/recoilState";
+import { useDebounce } from "@/hooks/useDebounce";
+import { searchTicker } from "@/lib/api";
 
-interface Match {
-    "1. symbol": string;
-}
+
 
 export function AppBar() {
     const navigate = useNavigate();
-    const [value, setValue] = useState("");
-    const [options, setOptions] = useState([]);
+    const [options, setOptions] = useState<string[]>([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [companyData, setCompanyData] = useRecoilState(companyDataState);
 
-    // const handleSearch = (value) => {
-    //     setSearchQuery(value);
-    // };
+    // Debounce the search query to prevent excessive API calls
+    const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
-    const handleSearchSubmit = () => {
-        if (searchQuery) {
-            axios
-                .get(
-                    `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${searchQuery}&apikey=L7LNN00KVSBU9UPD`
-                )
-                .then((res) => {
-                    setCompanyData(res.data);
-                    navigate('/product')
-                });
+    useEffect(() => {
+        if (debouncedSearchQuery) {
+            const fetchSymbols = async () => {
+                try {
+                    // Use new API helper
+                    const results = await searchTicker(debouncedSearchQuery);
+                    setOptions(results.map((match) => match.ticker));
+                } catch (error) {
+                    console.error("Error fetching symbols:", error);
+                }
+            };
+            fetchSymbols();
+        } else {
+            setOptions([]);
+        }
+    }, [debouncedSearchQuery]);
+
+    const handleSearchSubmit = (symbol: string) => {
+        if (symbol) {
+            // Navigate to product page with the selected symbol
+            // The product page will handle fetching details
+            navigate(`/product/${symbol}`);
         }
     };
 
-    const handleSearch = (searchTerm: string) => {
-        axios
-            .get(
-                `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${searchTerm}&apikey=L7LNN00KVSBU9UPD`
-            )
-            .then((res) => {
-                const data = res.data.bestMatches || [];
-                console.log(data);
-                setOptions(data.map((match : Match) => match["1. symbol"]));
-                if (data.length > 0) {
-                    setSearchQuery(data[0]["1. symbol"]);
-                }
-            });
-    };
+    return (
+        <nav className="flex items-center justify-between px-8 py-4 bg-white shadow-md border-b border-gray-100">
+            <div className="flex items-center cursor-pointer" onClick={() => navigate("/")}>
+                <div className="bg-emerald-500 rounded-lg p-2 mr-3">
+                    <Typography variant="h6" className="text-white font-bold tracking-tight">GM</Typography>
+                </div>
+                <Typography
+                    variant="h5"
+                    className="text-gray-900 font-bold tracking-tight hover:text-emerald-600 transition-colors"
+                >
+                    Groww Markets
+                </Typography>
+            </div>
 
-    return <div style={{
-        minHeight: 60,
-        backgroundColor: "darkorange",
-        display: "flex",
-        justifyContent: "space-around"
-    }}>
-        <div style={{
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column"
-        }}>
-            <Typography variant={"h5"} onClick={()=>{
-                navigate("/")
-            }}>GrowwStonks</Typography>
-        </div>
-
-        <Autocomplete
-            options={options}
-            onInputChange={(e, newInputValue) => {
-                handleSearch(newInputValue);
-            }}
-            renderInput={(params) => (
-                <TextField
-                    {...params}
-                    label="Search stocks & ETFs"
-                    size="small"
-                    margin="dense"
-                    color="info"
-                    InputProps={{
-                        ...params.InputProps,
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <IconButton onClick={handleSearchSubmit}>
-                                    <SearchIcon />
-                                </IconButton>
-                            </InputAdornment>
-                        ),
+            <div className="w-96 relative">
+                <Autocomplete
+                    freeSolo
+                    options={options}
+                    inputValue={searchQuery}
+                    onInputChange={(event, newInputValue) => {
+                        setSearchQuery(newInputValue);
                     }}
-                    sx={{ width: "350px" }}
+                    onChange={(event, newValue) => {
+                        if (newValue) {
+                            handleSearchSubmit(newValue);
+                        }
+                    }}
+                    onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                            // Only navigate if the current query matches one of the options (case-insensitive)
+                            // or if it looks like a valid ticker (e.g. 1-5 chars)
+                            // But usually best to force selection. Here let's try to match options.
+                            const exactMatch = options.find(opt => opt.toLowerCase() === searchQuery.toLowerCase());
+                            if (exactMatch) {
+                                handleSearchSubmit(exactMatch);
+                                event.preventDefault();
+                            }
+                        }
+                    }}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            placeholder="Search stocks & ETFs (e.g., AAPL)"
+                            variant="outlined"
+                            size="small"
+                            fullWidth
+                            InputProps={{
+                                ...params.InputProps,
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchIcon className="text-gray-400" />
+                                    </InputAdornment>
+                                ),
+                                className: "bg-gray-50 rounded-full hover:bg-white transition-all duration-200 focus-within:ring-2 focus-within:ring-emerald-500 focus-within:bg-white border-none"
+                            }}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    '& fieldset': { borderColor: 'transparent' },
+                                    '&:hover fieldset': { borderColor: 'transparent' },
+                                    '&.Mui-focused fieldset': { borderColor: 'transparent' },
+                                },
+                            }}
+                        />
+                    )}
                 />
-            )}
-        />
-    </div>
+            </div>
+        </nav>
+    );
 }
